@@ -1,0 +1,49 @@
+.poster{
+	float: left;
+}
+.poster img{
+	height: 450px;
+}
+.right-box{
+	width: 360px;
+	height: 430px;
+	float: left;
+	margin-top: 20px;
+	margin-left: 20px;
+}
+#movie-grid{
+	padding: 0;
+}
+
+.each-movie{
+	margin: auto;
+}
+
+.carousel-inner{
+	width: 702px;
+	margin: auto;
+	border: 1px solid black;
+}
+
+.preview img {
+	width: 60px;
+	height: 60px;
+}
+.search-results{
+	
+	/* perspective: 1000px; */
+	
+}
+
+body{
+	/* background-color: blue; */
+	/* transform-style: preserve-3d; */
+}
+
+.search-results img{
+	width: 200px;
+	height: 300px;
+	/* transform: rotateY(-10deg); */
+	/* border: 10px solid white; */
+
+}
