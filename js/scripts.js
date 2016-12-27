@@ -34,7 +34,6 @@ $(document).ready(function(){
 							var runtime = detailData.runtime			
 							var movieKey = targetMovieData.results[0].key
 							var youtubeLink = 'http://www.youtube.com/embed/' + movieKey
-							console.log(youtubeLink)
 							var poster = imageBaseUrl + 'w300' + nowPlayingData.results[i].poster_path;
 							if(i===0){nowPlayingHTML += '<div class="item active">'
 							}else{nowPlayingHTML += '<div class="item">'};
@@ -72,7 +71,6 @@ $(document).ready(function(){
 		searchInput = "harry potter"
 		var fullSearch = searchMovieUrl + searchInput;
 		$.getJSON(fullSearch, function(movieSearched){
-			console.log(movieSearched);
 			for(let i = 0; i < movieSearched.results.length; i++){
 				var posterSearched = imageBaseUrl + 'w300' + movieSearched.results[i].poster_path;
             	if(movieSearched.results[i].poster_path.length>1){
@@ -90,7 +88,6 @@ var carouselHTML = `<a class="left carousel-control" href="#carousel-example-gen
   				<a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
     			<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
     			<span class="sr-only">Next</span></a>`
-var watchPreview = '<div class="preview">Watch Preview<img src="youtube.png"></div>'
 
 
 
