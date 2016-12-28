@@ -1,9 +1,11 @@
 $(document).ready(function(){
+	// var nowPlayingCounter = 0
 	var apiBaseUrl = 'http://api.themoviedb.org/3/'
 	var imageBaseUrl = 'http://image.tmdb.org/t/p/'
 	const nowPlayingUrl = apiBaseUrl + 'movie/now_playing?api_key=' + apiKey 
 	$.getJSON(nowPlayingUrl, function(nowPlayingData){
 		var nowPlayingHTML = ''
+		var nowPlayingChartHTML = ''
 		for(let i = 0; i<nowPlayingData.results.length; i++){
 			var movieId = nowPlayingData.results[i].id
 			var trailerUrl = apiBaseUrl + 'movie/' + movieId + '/videos?api_key=' + apiKey
@@ -27,7 +29,8 @@ $(document).ready(function(){
 							var job = creditData.crew[0].job 
 							for(let i = 0; i<detailData.genres.length; i++){
 								if(i>0){
-								genre = genre + ", " + detailData.genres[i].name
+									if(i<4){
+									genre = genre + ", " + detailData.genres[i].name}
 								}else{genre = detailData.genres[i].name}
 							}
 							var homepage = detailData.homepage;
@@ -40,22 +43,40 @@ $(document).ready(function(){
 							nowPlayingHTML += '<div class="each-movie">';
 								nowPlayingHTML += '<div class="poster"><img src="' + poster + '"></div>';
 								nowPlayingHTML += '<div class="right-box">';
-									nowPlayingHTML += '<div class="title">' + nowPlayingData.results[i].title + ' (' + mpaa + ')</div>'
-									nowPlayingHTML += '<div class="overview">Overview: ' + nowPlayingData.results[i].overview + '</div>'
-									nowPlayingHTML += '<div class="release-date">Release Date: ' + nowPlayingData.results[i].release_date + '</div>'
-									nowPlayingHTML += '<div class="vote-average">Rating: ' + nowPlayingData.results[i].vote_average + ' / 10</div>'
+									nowPlayingHTML += '<div class="title">' + nowPlayingData.results[i].title
+									if(mpaa.length>0){
+										nowPlayingHTML += ' <span class="mpaa">(' + mpaa + ')</span></div>'
+									}else{nowPlayingHTML += '</div>'}
+									nowPlayingHTML += '<div class="overview">' + nowPlayingData.results[i].overview + '</div>'
+									nowPlayingHTML += '<div class="vote-average">Rating: ' + nowPlayingData.results[i].vote_average + ' / 10 <img src="rating.png"></div>'
 									nowPlayingHTML += '<div class="genre">Genre: ' + genre + '</div>'
+									nowPlayingHTML += '<div class="runtime">Runtime: ' + runtime + ' minutes</div>'
+									nowPlayingHTML += '<div class="cast">Cast: ' + cast + '</div>'
+									nowPlayingHTML += '<div class="cast">Director / Producer: ' + crew + '</div>'
+									nowPlayingHTML += '<div class="release-date">Release Date: ' + nowPlayingData.results[i].release_date + '</div>'									
+									
 									if(homepage.length>1){
 										nowPlayingHTML += '<div class="homepage">Website: <a target="_blank" href="' + homepage + '">' + homepage + '</a></div>'}
-									nowPlayingHTML += '<div class="runtime">Runtime: ' + runtime + ' minutes</div>'
-									nowPlayingHTML += '<div class="cast">' + crew + ' (' + job + ') </div>'
-									nowPlayingHTML += '<div class="cast">Cast: ' + cast + '</div>'
+									
+									
+									
 									// nowPlayingHTML += '<div class="preview">Watch Preview<a href="#" class="btn btn-default" data-toggle="modal" data-target="#videoModal" data-theVideo="' + youtubeLink + '">' + '<img src="youtube.png"></a></div>'
-									nowPlayingHTML += '<div class="preview">Watch Preview<a target="_blank" href="'+ youtubeLink + '">' + '<img src="youtube.png"></a></div>'
+									
+									// nowPlayingHTML += '<div class="preview">Watch Preview<a target="_blank" href="'+ youtubeLink + '">' + '<img src="youtube.png"></a></div>'
+									nowPlayingHTML += '<div class="preview">Preview: <a target="_blank" href="'+ youtubeLink + '">' + youtubeLink + '</a></div>'
 								nowPlayingHTML += '</div>'	   	//right-box closing tag
 							nowPlayingHTML += '</div>'			//each-movie closing tag	  youtubeLink
 							nowPlayingHTML += '</div>'			//item closing tag
 							$('.carousel-inner').html(nowPlayingHTML + carouselHTML);
+							
+							if(i<10){
+								if(nowPlayingData.results[i].title.length>27){
+									nowPlayingChartHTML += '<div class="nowPlayingChart">' + nowPlayingData.results[i].title.slice(0,27) +'... &nbsp<span class="nowPlayingRating"><img src="thumbsUp.png"> ' + nowPlayingData.results[i].vote_average*10 + '%</span></div>'
+								}else{nowPlayingChartHTML += '<div class="nowPlayingChart">' + nowPlayingData.results[i].title + '&nbsp<span class="nowPlayingRating"><img src="thumbsUp.png"> ' + nowPlayingData.results[i].vote_average*10 + '%</span></div>'
+								};
+
+								$('.topNowShowing').html(nowPlayingTitle + nowPlayingChartHTML);
+							}
 						});
 					});
 				});
@@ -64,11 +85,11 @@ $(document).ready(function(){
 	});
 	var searchMovieUrl = apiBaseUrl + 'search/movie?api_key=' + apiKey + '&language=en-US&page=1&include_adult=false&query=';
 	var searchInput = '';
-	// $('.movie-form').submit(function(){
+	$('.movie-form').submit(function(){
 		$('.search-results').html('')
 		event.preventDefault();
 		searchInput = $('#movieSearch').val();
-		searchInput = "harry potter"
+		// searchInput = "harry potter"
 		var fullSearch = searchMovieUrl + searchInput;
 		$.getJSON(fullSearch, function(movieSearched){
 			for(let i = 0; i < movieSearched.results.length; i++){
@@ -77,11 +98,9 @@ $(document).ready(function(){
             		$('.search-results').append('<img src="' + posterSearched + '">');
             	}
 			}
-		// })
+		})
 	});
 });
-
-
 var carouselHTML = `<a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
     			<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
     			<span class="sr-only">Previous</span></a>
@@ -89,7 +108,139 @@ var carouselHTML = `<a class="left carousel-control" href="#carousel-example-gen
     			<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
     			<span class="sr-only">Next</span></a>`
 
+var nowPlayingTitle = '<div class="nowPlayingTitle">Top Movies In Theaters Now!</div>'
 
 
 
+
+////////////////////
+///WEATHER WIDGET///
+////////////////////
+$(document).ready(function(){
+    $('#weather-form').submit(function(){
+        event.preventDefault();
+        var weatherLocation = $('#location').val();
+        // weatherlocation = "30033"
+        var weatherUrl = "http://api.openweathermap.org/data/2.5/weather?units=imperial&zip=" +weatherLocation+ ",us&appid=" + apiKey3;
+        $.getJSON(weatherUrl, function(weatherData){
+            var currTemp = weatherData.main.temp;
+            var weatherName = weatherData.name;
+            var weatherIcon = weatherData.weather[0].icon +'.png';
+            var weatherDescription = weatherData.weather[0].description
+            $('#currTemp').html("<img src='http://openweathermap.org/img/w/" + weatherIcon + "'>" + weatherName)
+            $('.weather-description').html(weatherDescription)
+
+            var canvas = $('#weather-canvas');
+            var context = canvas[0].getContext('2d');
+            var currPercent = 0;
+            function animate(current){
+                context.fillStyle = "grey";
+                context.beginPath();
+                context.arc(155,75,65,Math.PI*0,Math.PI*2);
+                context.closePath();
+                context.fill();
+				$('.degrees').html(currPercent/5 + "&deg;")
+                if(currPercent<50){
+              		context.strokeStyle = '#e3f2fd'
+              		$('.degrees').css({'color':'#e3f2fd'})
+              	}else if(currPercent<100){
+              		context.strokeStyle = '#bbdefb'
+              		$('.degrees').css({'color':'#bbdefb'})
+              	}else if(currPercent<150){
+              		context.strokeStyle = '#90caf9'
+              		$('.degrees').css({'color':'#90caf9'})
+              	}else if(currPercent<200){
+              		context.strokeStyle = '#64b5f6'
+              		$('.degrees').css({'color':'#64b5f6'})
+              	}else if(currPercent<250){
+              		context.strokeStyle = '#42a5f5'
+              		$('.degrees').css({'color':'#42a5f5'})
+              	}else if(currPercent<300){
+              		context.strokeStyle = '#fff9c4'	
+              		$('.degrees').css({'color':'#fff9c4'})
+              	}else if(currPercent<350){
+              		context.strokeStyle = '#fff9c4'
+              		$('.degrees').css({'color':'#fff9c4'})
+              	}else if(currPercent<400){
+              		context.strokeStyle = '#fff59d'
+              		$('.degrees').css({'color':'#fff59d'})
+              	}else if(currPercent<450){
+              		context.strokeStyle = '#fff176'
+              		$('.degrees').css({'color':'#fff176'})
+              	}else if(currPercent<500){
+              		context.strokeStyle = '#ffee58'
+              		$('.degrees').css({'color':'#ffee58'})
+              	}else if(currPercent>=500){
+              		context.strokeStyle = '#ffeb3b'
+              		$('.degrees').css({'color':'#ffeb3b'})
+              	}
+              	context.lineWidth = 10; 
+                context.beginPath();
+                context.arc(155,75,70,Math.PI*1.5, (Math.PI * 2 * current) + Math.PI*1.5);
+                context.stroke()	
+                currPercent++;
+       			var currPercent2 = currPercent / 5
+                if(currPercent2<currTemp){
+                	requestAnimationFrame(function(){
+                		animate(currPercent / 500)
+                	})
+                }
+            }
+            animate();
+        });
+        var weatherWeekUrl = 'http://api.openweathermap.org/data/2.5/forecast/daily?q=' + weatherLocation + ',us&mode=json&units=imperial&appid=' + apiKey3;
+        $.getJSON(weatherWeekUrl, function(weatherWeekData){
+        	var weekHTML = ""
+        	for(let i=0; i<7; i++){
+        		var weatherDate = new Date(weatherWeekData.list[i].dt * 1000)
+				var date = weatherDate.getDate()
+            	var numOfTheweek = weatherDate.getDay()
+            	var dayOfTheweek = ""
+         		if(numOfTheweek===0){
+					dayOfTheweek="SUN"
+           	 	}else if(numOfTheweek===1){
+					dayOfTheweek="MON"
+				}else if(numOfTheweek===2){
+					dayOfTheweek="TUE"
+           	 	}else if(numOfTheweek===3){
+           	   		dayOfTheweek="WED"
+           	 	}else if(numOfTheweek===4){
+           	   		dayOfTheweek="THR"
+           	 	}else if(numOfTheweek===5){
+           	   		dayOfTheweek="FRI"
+            	}else if(numOfTheweek===6){
+					dayOfTheweek="SAT"
+            	};
+        		var max = weatherWeekData.list[i].temp.max
+        		var min = weatherWeekData.list[i].temp.min
+        		weekHTML += "<div>" + dayOfTheweek + "<br>" + date + "<br>" + Math.floor(max) + "<br>" + Math.floor(min) + "</div>"
+        	}
+			$('.weather-week').html(weekHTML);
+			$('.weather-week').prepend('<div>Day<br>Date<br>High<br>Low</div>')
+        })
+
+/////////////////////
+////GET SHOWTIMES////
+/////////////////////
+        var currentDate = new Date()
+		var dd = currentDate.getDate();
+		var mm = currentDate.getMonth()+1;
+		var yyyy = currentDate.getFullYear();
+		var currentMovieDate = yyyy + '-' + mm + '-' + dd
+		var showtimeUrl = 'http://data.tmsapi.com/v1.1/movies/showings?startDate=' + currentMovieDate + '&zip=' + weatherLocation + '&imageSize=Md&api_key=' + apiKey2
+		$.getJSON(showtimeUrl, function(showTimeData){
+			console.log(showTimeData)
+			var showTimeHTML = ""
+			for(let i=0; i<15; i++){
+				showTimeHTML += '<div class="showTimeWrapper">'
+					showTimeHTML += '<div class="individualShowTimes">' + showTimeData[i].title + '</div>'
+					showTimeHTML += '<div class="theaterName">' + showTimeData[i].showtimes[0].theatre.name + '</div>'
+					showTimeHTML += '<div class="bookFandango"><a href="' + showTimeData[i].showtimes[0].ticketURI + '">here</a></div>'
+				showTimeHTML += '</div>'	
+				console.log(showTimeHTML)
+			}
+			$('.showTimes').html(showTimeHTML)
+		});
+    });
+});
 
