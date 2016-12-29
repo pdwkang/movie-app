@@ -27,11 +27,12 @@
 	<button type='submit'>Search</button>
 </form>
 
+<form id='weather-form'>
+	<label>Get showtimes at your local theater!</label>
+	<input type="text" id="location" placeholder="Location">
+</form>
 <div class='weather-wrapper text-center'>
-	<form id='weather-form'>
-		<label>Get showtimes at your local theater!</label>
-		<input type="text" id="location" placeholder="Location">
-	</form>
+
 
 	<div id="currTemp"></div>
 	<div class='canvas-wrapper'>
@@ -40,8 +41,9 @@
 		<div class="weather-description"></div>
 	</div>
 	<div class="weather-week"></div>
+	<div class='showTimes'></div>
+
 </div>
-<div class='showTimes'></div>
 <div class='search-results'></div>
 
 </div>

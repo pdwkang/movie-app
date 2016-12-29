@@ -57,8 +57,7 @@ $(document).ready(function(){
 									
 									if(homepage.length>1){
 										nowPlayingHTML += '<div class="homepage">Website: <a target="_blank" href="' + homepage + '">' + homepage + '</a></div>'}
-									
-									
+										
 									
 									// nowPlayingHTML += '<div class="preview">Watch Preview<a href="#" class="btn btn-default" data-toggle="modal" data-target="#videoModal" data-theVideo="' + youtubeLink + '">' + '<img src="youtube.png"></a></div>'
 									
@@ -117,66 +116,66 @@ var nowPlayingTitle = '<div class="nowPlayingTitle">Top Movies In Theaters Now!<
 ///WEATHER WIDGET///
 ////////////////////
 $(document).ready(function(){
-    $('#weather-form').submit(function(){
+    // $('#weather-form').submit(function(){
         event.preventDefault();
         var weatherLocation = $('#location').val();
-        // weatherlocation = "30033"
+        weatherLocation = "30033"
         var weatherUrl = "http://api.openweathermap.org/data/2.5/weather?units=imperial&zip=" +weatherLocation+ ",us&appid=" + apiKey3;
         $.getJSON(weatherUrl, function(weatherData){
             var currTemp = weatherData.main.temp;
             var weatherName = weatherData.name;
             var weatherIcon = weatherData.weather[0].icon +'.png';
             var weatherDescription = weatherData.weather[0].description
-            $('#currTemp').html("<img src='http://openweathermap.org/img/w/" + weatherIcon + "'>" + weatherName)
-            $('.weather-description').html(weatherDescription)
+            $('#currTemp').html(weatherName)
+            $('.weather-description').html("<img src='http://openweathermap.org/img/w/" + weatherIcon + "'>" + weatherDescription )
 
             var canvas = $('#weather-canvas');
             var context = canvas[0].getContext('2d');
             var currPercent = 0;
             function animate(current){
-                context.fillStyle = "grey";
+                context.fillStyle = "#1a237e";
                 context.beginPath();
-                context.arc(155,75,65,Math.PI*0,Math.PI*2);
+                context.arc(85,75,45,Math.PI*0,Math.PI*2);
                 context.closePath();
                 context.fill();
 				$('.degrees').html(currPercent/5 + "&deg;")
                 if(currPercent<50){
+              		context.strokeStyle = '#e8eaf6'
+              		$('.degrees').css({'color':'#e8eaf6'})
+              	}else if(currPercent<100){
               		context.strokeStyle = '#e3f2fd'
               		$('.degrees').css({'color':'#e3f2fd'})
-              	}else if(currPercent<100){
+              	}else if(currPercent<150){
               		context.strokeStyle = '#bbdefb'
               		$('.degrees').css({'color':'#bbdefb'})
-              	}else if(currPercent<150){
-              		context.strokeStyle = '#90caf9'
-              		$('.degrees').css({'color':'#90caf9'})
               	}else if(currPercent<200){
+              		context.strokeStyle = '#bbdefb'
+              		$('.degrees').css({'color':'#bbdefb'})
+              	}else if(currPercent<250){
+              		context.strokeStyle = '#7986cb'
+              		$('.degrees').css({'color':'#7986cb'})
+              	}else if(currPercent<300){
+              		context.strokeStyle = '#7986cb'	
+              		$('.degrees').css({'color':'#7986cb'})
+              	}else if(currPercent<350){
               		context.strokeStyle = '#64b5f6'
               		$('.degrees').css({'color':'#64b5f6'})
-              	}else if(currPercent<250){
+              	}else if(currPercent<400){
+              		context.strokeStyle = '#5c6bc0'
+              		$('.degrees').css({'color':'#5c6bc0'})
+              	}else if(currPercent<450){
               		context.strokeStyle = '#42a5f5'
               		$('.degrees').css({'color':'#42a5f5'})
-              	}else if(currPercent<300){
-              		context.strokeStyle = '#fff9c4'	
-              		$('.degrees').css({'color':'#fff9c4'})
-              	}else if(currPercent<350){
-              		context.strokeStyle = '#fff9c4'
-              		$('.degrees').css({'color':'#fff9c4'})
-              	}else if(currPercent<400){
-              		context.strokeStyle = '#fff59d'
-              		$('.degrees').css({'color':'#fff59d'})
-              	}else if(currPercent<450){
-              		context.strokeStyle = '#fff176'
-              		$('.degrees').css({'color':'#fff176'})
               	}else if(currPercent<500){
-              		context.strokeStyle = '#ffee58'
-              		$('.degrees').css({'color':'#ffee58'})
+              		context.strokeStyle = '#3f51b5'
+              		$('.degrees').css({'color':'#3f51b5'})
               	}else if(currPercent>=500){
-              		context.strokeStyle = '#ffeb3b'
-              		$('.degrees').css({'color':'#ffeb3b'})
+              		context.strokeStyle = '#2196f3'
+              		$('.degrees').css({'color':'#2196f3'})
               	}
-              	context.lineWidth = 10; 
+              	context.lineWidth = 7; 
                 context.beginPath();
-                context.arc(155,75,70,Math.PI*1.5, (Math.PI * 2 * current) + Math.PI*1.5);
+                context.arc(85,75,42,Math.PI*1.5, (Math.PI * 2 * current) + Math.PI*1.5);
                 context.stroke()	
                 currPercent++;
        			var currPercent2 = currPercent / 5
@@ -187,7 +186,7 @@ $(document).ready(function(){
                 }
             }
             animate();
-        });
+        // });
         var weatherWeekUrl = 'http://api.openweathermap.org/data/2.5/forecast/daily?q=' + weatherLocation + ',us&mode=json&units=imperial&appid=' + apiKey3;
         $.getJSON(weatherWeekUrl, function(weatherWeekData){
         	var weekHTML = ""
@@ -213,10 +212,10 @@ $(document).ready(function(){
             	};
         		var max = weatherWeekData.list[i].temp.max
         		var min = weatherWeekData.list[i].temp.min
-        		weekHTML += "<div>" + dayOfTheweek + "<br>" + date + "<br>" + Math.floor(max) + "<br>" + Math.floor(min) + "</div>"
+        		weekHTML += "<div>" + dayOfTheweek + "<br><span class='tempHigh'>" + Math.floor(max) + "</span><br><span class='tempLow'>" + Math.floor(min) + "</span></div>"
         	}
 			$('.weather-week').html(weekHTML);
-			$('.weather-week').prepend('<div>Day<br>Date<br>High<br>Low</div>')
+			// $('.weather-week').prepend('<div>Day<br>Date<br>High<br>Low</div>')
         })
 
 /////////////////////
@@ -229,17 +228,16 @@ $(document).ready(function(){
 		var currentMovieDate = yyyy + '-' + mm + '-' + dd
 		var showtimeUrl = 'http://data.tmsapi.com/v1.1/movies/showings?startDate=' + currentMovieDate + '&zip=' + weatherLocation + '&imageSize=Md&api_key=' + apiKey2
 		$.getJSON(showtimeUrl, function(showTimeData){
-			console.log(showTimeData)
-			var showTimeHTML = ""
+			var showTimeHTML = ''
+			var theaterHTML = '<div class="theaterName">' + showTimeData[0].showtimes[0].theatre.name + '&nbsp &nbsp &nbsp<img src="fandango.png"></div>'
 			for(let i=0; i<15; i++){
 				showTimeHTML += '<div class="showTimeWrapper">'
 					showTimeHTML += '<div class="individualShowTimes">' + showTimeData[i].title + '</div>'
-					showTimeHTML += '<div class="theaterName">' + showTimeData[i].showtimes[0].theatre.name + '</div>'
-					showTimeHTML += '<div class="bookFandango"><a href="' + showTimeData[i].showtimes[0].ticketURI + '">here</a></div>'
-				showTimeHTML += '</div>'	
-				console.log(showTimeHTML)
+					showTimeHTML += '<div class="bookFandango"><a href="' + showTimeData[i].showtimes[0].ticketURI + '">Get Tickets!</a></div>'
+				showTimeHTML += '</div><br>'	
 			}
-			$('.showTimes').html(showTimeHTML)
+
+			$('.showTimes').html(theaterHTML + showTimeHTML)
 		});
     });
 });
