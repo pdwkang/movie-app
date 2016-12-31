@@ -1,8 +1,10 @@
 body{
 	background: url('../background.jpg');
+	font-family: 'Baloo Thambi';
 }
 label{
 	color: white;
+	/* float: left; */
 }
 .nowPlaying{
 	font-size: 20px;
@@ -19,12 +21,35 @@ label{
 }
 .wrapper{
 	padding-top: 30px;
+	font-size: 14px;
 }
 .overview{
 	margin-bottom: 10px;
 	padding-bottom: 10px;
 	border-bottom: 1px solid grey;
 	text-align: justify;
+}
+.tv-wrapper{
+	width: 480px;
+	background: linear-gradient(to right, rgba(166,174,179,1) 0%, rgba(250,250,250,1) 100%);
+	color: white;
+	display: inline-block;
+	margin-left: 20px;
+	height: 760px;
+}
+.tv-wrapper img{
+	width: 100px;
+	clear: both;
+	/* display: inline-block; */
+}
+.eachTvShow{
+	display: inline-block;
+}
+.tvTitle{
+	
+}
+.tvDescription{
+	/* display: inline-block; */
 }
 .theWholeWorld{
 	background: url('../background.png');
@@ -56,8 +81,7 @@ label{
 }
 
 .topNowShowing{
-	position: relative;
-	float: left;
+	float: right;
 	background: linear-gradient(to top, rgba(166,174,179,1) 0%, rgba(250,250,250,1) 100%);
 	border: 1px solid grey;
 	height: 442px;
@@ -120,16 +144,10 @@ label{
 /******************/
 /**weather widget**/
 /******************/
-
-body{
-	font-family: 'Baloo Thambi';
-}
-
 canvas {
 	position: absolute;
 	left: 0px;
 }
-
 .degrees{
 	position: absolute;
 	top: 108px;
@@ -137,7 +155,6 @@ canvas {
 	text-align: center;
 	font-size: 23px;
 }
-
 .weather-description{
 	text-align: center;
 	position: absolute;
@@ -171,6 +188,8 @@ canvas {
 	font-family: 'Baloo Thambi';
 	padding: 20px;
 	margin-bottom: 10px;
+	float: left;
+	clear: left;
 }
 
 .tempHigh{
@@ -205,6 +224,7 @@ canvas {
 .showTimeWrapper div{
 	display: inline-block;
 	font-family:  Verdana;
+
 	/* height: 30px; */
 }
 
@@ -240,15 +260,17 @@ canvas {
 #weather-form{
 	margin-left: 20px;
 	font-size: 20px;
-	display: inline-block;
+	float: left;
+	clear: both;
 }
 
 #weather-form label, input{
 	margin-top: 20px;
+	/* float: left; */
 }
 #weather-form input{
 	width: 120px;
-	margin-left: 29px;
+	margin-left: 33px;
 }
 
 /******************/
