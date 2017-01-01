@@ -128,7 +128,7 @@ $(document).ready(function(){
 			for(let i = 0; i < tvData.results.length; i++){
 				tvShowHTML += '<div class="eachTvShow">'
 					tvShowHTML += '<img src="' + imageBaseUrl + 'w300' + tvData.results[i].poster_path + '"><br>'
-					tvShowHTML += '<span class="tvTitle">' + tvData.results[i].name + '</span>'
+					// tvShowHTML += '<span class="tvTitle">' + tvData.results[i].name + '</span>'
 					// tvShowHTML += '<span class="tvDescription">' + tvData.results[i].overview + '</span>'
 				tvShowHTML += '</div>'	
 				$('.tv-wrapper').html(tvShowHTML)
