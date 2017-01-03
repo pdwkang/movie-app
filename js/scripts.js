@@ -97,8 +97,9 @@ $(document).ready(function(){
 				var searchMovieOverview = movieSearched.results[i].overview;
 				var searchMovieHTML = ''
 	            if((movieSearched.results[i].poster_path)&&(searchMovieRating>0)&&(searchMoviePopularity>0)){
-	           		searchMovieHTML += '<div class="eachSearchMovie"><img src="' + posterSearched + '">'
-	           			searchMovieHTML += '<div class="searchMovieDescription">'
+	           		searchMovieHTML += '<div class="eachSearchMovie"><button type="button" class="btn invisible-btn" data-toggle="modal" data-target="#exampleModal' + i + '" data-whatever="@' + i + '"><img src="' + posterSearched + '"></button>'
+	           			searchMovieHTML += '<div class="modal fade" id="exampleModal' + i + '" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"><div class="modal-dialog" role="document"><div class="modal-content">'
+	           			// searchMovieHTML += '<div class="searchMovieDescription">'
 		           			searchMovieHTML += '<div class="searchMovieTitle">' + searchMovieTitle + '</div>'
 	    	       		if((searchMoviePopularity>70)&&(searchMovieRating>6)){
 	    	       			searchMovieHTML += '<div class="searchMovieRating green">' + searchMovieRating + '/10 Critics Rating, ' + searchMoviePopularity + '% of Audience Liked It</div>'
@@ -106,7 +107,8 @@ $(document).ready(function(){
 	    	       		}
 	        	   			searchMovieHTML += '<div class="searchMovieReleaseDate">Release Date: ' + searchMovieReleaseDate + '</div>'
 	           				searchMovieHTML += '<div class="searchMovieOverview">' + searchMovieOverview + '</div>'
-	           		searchMovieHTML += '</div><br></div>'		
+	           		searchMovieHTML += '</div><br></div>'
+	           		searchMovieHTML += '</div></div></div>'		
 	           		$('.search-results').append(searchMovieHTML);
 	          	}
 			}
