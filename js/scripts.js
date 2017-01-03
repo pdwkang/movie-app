@@ -1,5 +1,4 @@
 $(document).ready(function(){
-	// var nowPlayingCounter = 0
 	var apiBaseUrl = 'http://api.themoviedb.org/3/'
 	var imageBaseUrl = 'http://image.tmdb.org/t/p/'
 	const nowPlayingUrl = apiBaseUrl + 'movie/now_playing?api_key=' + apiKey 
@@ -78,7 +77,7 @@ $(document).ready(function(){
 		} //for loop ends
 	});
 	var searchMovieUrl = apiBaseUrl + 'search/movie?api_key=' + apiKey + '&language=en-US&page=1&include_adult=false&query=';
-	var searchInput = 'harry potter';
+	var searchInput = 'lord of the rings';
 	searchMovie();
 	$('.movie-form').submit(function(){
 		$('.search-results').html('')
@@ -112,12 +111,19 @@ $(document).ready(function(){
 	          	}
 			}
 		})
-	}	//searchMovie function ends
+	};	//searchMovie function ends
+
     $('.search-results').on("click", '.eachSearchMovie', function(){
-    	$('.searchMovieDescription').hide();
+    	$('.hiddenTvDescription, .searchMovieDescription').hide();
     	var $thisPoster = $(this).children('.searchMovieDescription')
 		$thisPoster.fadeIn();
-		setTimeout(function(){$thisPoster.fadeOut(1300);}, 7000)
+		setTimeout(function(){$thisPoster.fadeOut(1300);}, 3000)
+	})
+    $('.tv-wrapper').on("click", '.eachTvShow', function(){
+    	$('.hiddenTvDescription, .searchMovieDescription').hide();
+    	var $thisTvPoster = $(this).children('.hiddenTvDescription')
+		$thisTvPoster.fadeIn();
+		setTimeout(function(){$thisTvPoster.fadeOut(1300);}, 3000)
 	})
 
 	function getTvShows(){
@@ -128,9 +134,9 @@ $(document).ready(function(){
 			for(let i = 0; i < tvData.results.length; i++){
 				tvShowHTML += '<div class="eachTvShow">'
 					tvShowHTML += '<img src="' + imageBaseUrl + 'w300' + tvData.results[i].poster_path + '"><br>'
-					// tvShowHTML += '<span class="tvTitle">' + tvData.results[i].name + '</span>'
-					// tvShowHTML += '<span class="tvDescription">' + tvData.results[i].overview + '</span>'
-				tvShowHTML += '</div>'	
+					tvShowHTML += '<div class="hiddenTvDescription"><span class="tvTitle">' + tvData.results[i].name + '</span><br>'
+					tvShowHTML += '<span class="tvDescription">' + tvData.results[i].overview + '</span>'
+				tvShowHTML += '</div></div>'	
 				$('.tv-wrapper').html(tvShowHTML)
 			}
 		});
@@ -187,9 +193,9 @@ function getWeather(){
           	// 	context.strokeStyle = '#e3f2fd'
           	// 	$('.degrees').css({'color':'#e3f2fd'})
           	// }else if(currPercent<150){
-           //  	context.strokeStyle = '#bbdefb'
-           //    	$('.degrees').css({'color':'#bbdefb'})
-           //  }else if(currPercent<200){
+            //  	context.strokeStyle = '#bbdefb'
+            //    	$('.degrees').css({'color':'#bbdefb'})
+            //  }else if(currPercent<200){
           	// 	context.strokeStyle = '#bbdefb'
           	// 	$('.degrees').css({'color':'#bbdefb'})
           	// }else if(currPercent<250){

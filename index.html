@@ -3,16 +3,20 @@
 <head>
 	<title></title>
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-	<link rel="stylesheet" type="text/css" href="css/styles.css">
+	
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 	<script type="text/javascript" src="js/config.js"></script>
+	<link rel="stylesheet" type="text/css" href="css/styles.css">
 	<style>@import 'https://fonts.googleapis.com/css?family=Baloo+Thambi';</style>	
 	<style>@import 'https://fonts.googleapis.com/css?family=Anton';</style>	
 	<style>@import 'https://fonts.googleapis.com/css?family=Coming+Soon';</style>	
+	<style>@import 'https://fonts.googleapis.com/css?family=Orbitron';</style>	
 </head>
 <body>
-<div class='theWholeWorld'>
+	<div class='header'>ABC Movie Data Base</div>
+	<div class='theWholeWorld'>
+
 	<div class='wrapper'>  <!-- carousel -->  
 		<label class='nowPlaying'>Now Playing!</label><br>
 		<div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
@@ -20,13 +24,14 @@
 		</div>
 		<div class="topNowShowing"></div>	<!-- right top box  -->
 	</div>
-	<form id='weather-form'>	
-		<label>Enter ZIP Code and Get Showtimes!</label>
-		<input type="text" id="location" placeholder="30033">
-		&nbsp 
-		<label>Top Tv Shows!</label>
+	<form id='weather-form'>
+		<label>Enter ZIP Code and Get Tickets!</label>
+		<input type="text" id="location" class='form-control' placeholder="30033">
+		 &nbsp&nbsp
+		<label>Top TV Shows!</label>
 	</form>	
 	<div class='weather-wrapper text-center'>
+		<img class='cloud' src='cloud.png'>
 		<div id="currTemp"></div>
 		<div class='canvas-wrapper'>
 			<canvas id="weather-canvas"></canvas>
@@ -39,8 +44,8 @@
 	<div class='tv-wrapper'></div>	
 	<form class='movie-form'>
 		<label>Movie Search</label> &nbsp &nbsp
-		<input type='text' id='movieSearch' placeholder="harry potter">
-		<button type='submit'>Search</button>
+		<input type='text' id='movieSearch' class='form-control' placeholder="lord of the rings">
+        	<button type='submit' class="btn btn-warning" type="button">Search</button>
 	</form>
 	<div class='search-results'></div>
 </div>
