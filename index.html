@@ -26,8 +26,7 @@
 	</div>
 	<form id='weather-form'>
 		<label>Enter ZIP Code and Get Tickets!</label>
-		<input type="text" id="location" class='form-control' placeholder="30033">
-		 &nbsp&nbsp
+		<input type="text" id="location" class='form-control' placeholder="30033">&nbsp&nbsp
 		<label>Top TV Shows!</label>
 	</form>	
 	<div class='weather-wrapper text-center'>
@@ -42,6 +41,25 @@
 		<div class='showTimes'></div>
 	</div>
 	<div class='tv-wrapper'></div>	
+	<div class='stock-wrapper'>
+		<label>Check Movie Industry Stocks!</label>
+		<button class="btn btn-primary nflx" type="button">NETFLIX</button>
+		<button class="btn btn-primary fox" type="button">FOX</button>
+		<button class="btn btn-primary via" type="button">VIACOM</button>
+		<table class='table table-striped table-bordered'>
+			<thead>
+				<tr>
+					<th>Stock Symbol</th>
+					<th>Company Name</th>
+					<th>Ask Price</th>
+					<th>Bid Price</th>
+					<th>Daily Change</th>
+					<th>Time Stamp</th>
+				</tr>
+			</thead>		
+			<tbody id="stock-body" class="text-center"></tbody>
+		</table>
+	</div>
 	<form class='movie-form'>
 		<label>Movie Search</label> &nbsp &nbsp
 		<input type='text' id='movieSearch' class='form-control' placeholder="lord of the rings">

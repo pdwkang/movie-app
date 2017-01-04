@@ -85,6 +85,7 @@ $(document).ready(function(){
 		searchInput = $('#movieSearch').val();		
 		searchMovie();
 	});
+
 	function searchMovie(){
 		var fullSearch = searchMovieUrl + searchInput;
 		$.getJSON(fullSearch, function(movieSearched){
@@ -115,24 +116,10 @@ $(document).ready(function(){
 		})
 	};	//searchMovie function ends
 
- //    $('.search-results').on("click", '.eachSearchMovie', function(){
- //    	$('.hiddenTvDescription, .searchMovieDescription').hide();
- //    	var $thisPoster = $(this).children('.searchMovieDescription')
-	// 	$thisPoster.fadeIn();
-	// 	setTimeout(function(){$thisPoster.fadeOut(1300);}, 3000)
-	// })
- //    $('.tv-wrapper').on("click", '.eachTvShow', function(){
- //    	$('.hiddenTvDescription, .searchMovieDescription').hide();
- //    	var $thisTvPoster = $(this).children('.hiddenTvDescription')
-	// 	$thisTvPoster.fadeIn();
-	// 	setTimeout(function(){$thisTvPoster.fadeOut(1300);}, 3000)
-	// })
-
 	function getTvShows(){
 		const tvShowUrl = apiBaseUrl + 'tv/top_rated?api_key=' + apiKey 
 		var tvShowHTML = ''
 	    $.getJSON(tvShowUrl, function(tvData){
-	    	console.log(tvData)
 			for(let i = 0; i < tvData.results.length; i++){
 					tvShowHTML += '<div class="eachTvShow"><button type="button" class="btn invisible-btn" data-toggle="modal" data-target="#exampleModalTV' + i + '" data-whatever="@' + i + '"><img src="' + imageBaseUrl + 'w300' + tvData.results[i].poster_path + '"></button>'
 	           		tvShowHTML += '<div class="modal fade" id="exampleModalTV' + i + '" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"><div class="modal-dialog" role="document"><div class="modal-content">'
@@ -292,3 +279,75 @@ function getWeather(){
 	});
 }
 
+$(document).ready(function(){
+	symbol = 'nflx'
+		// nflx fox via
+	$('.fox').click(function(){
+		symbol = 'foxa'
+	})
+	$('.nflx').click(function(){
+		symbol = 'nflx'
+	})
+	$('.via').click(function(){
+		symbol = 'via'
+	})
+
+		setInterval(runJSON1, 1000);
+
+function runJSON1(){
+	var url = `http://query.yahooapis.com/v1/public/yql?
+	q=select%20*%20from%20yahoo.finance.quotes%20where%20symbol%20in%20
+	("${symbol}")%0A%09%09&env=http%3A%2F%2Fdatatables.org%2Falltables.env&format=json`;
+	$.getJSON(url, function(stockData){
+		var stockInfo = stockData.query.results.quote;
+		if(stockData.query.count == 1){
+			var htmlToPlot = buildStockRow(stockInfo);
+			$('#stock-body').html(htmlToPlot);				
+		}else{
+			$('#stock-body').html("");
+			for(let i = 0; i < stockInfo.length; i++){
+				var htmlToPlot = buildStockRow(stockInfo[i]);
+				$('#stock-body').append(htmlToPlot);
+			}
+		}
+	});	
+}
+function buildStockRow(stock){
+	if(stock.Change.indexOf('+') > -1) {
+		var classChange = "success";
+	}
+	else{
+		var classChange = "danger";
+	}
+
+	var date = new Date()
+	var timeStamp;
+	if(date.getHours() < 10){
+		timeStamp = "0" + date.getHours();
+	}else{
+		timeStamp = date.getHours();
+	};
+
+	if(date.getMinutes() < 10){
+		timeStamp += (":0" + date.getMinutes())
+	}else{
+		timeStamp += (":" + date.getMinutes())	
+	};
+
+	if(date.getSeconds() < 10){
+		timeStamp += (":0" + date.getSeconds())
+	}else{
+		timeStamp += (":" + date.getSeconds())	
+	};
+	var newHTML = '';
+	newHTML += '<tr>';
+		newHTML += '<td>'+(stock.Symbol).toUpperCase() +'</td>';
+		newHTML += '<td>'+stock.Name+'</td>';
+		newHTML += '<td>'+stock.Ask+'</td>';
+		newHTML += '<td>'+stock.Bid+'</td>';
+		newHTML += '<td class="'+classChange+'">'+stock.Change+'</td>';
+		newHTML += '<td>'+timeStamp+'</td>';
+	newHTML += '</tr>';
+	return newHTML;
+}	
+});
