@@ -92,18 +92,18 @@ $(document).ready(function(){
 				var posterSearched = imageBaseUrl + 'w300' + movieSearched.results[i].poster_path;
 				var searchMovieTitle = movieSearched.results[i].title;
 				var searchMovieRating = Math.floor(movieSearched.results[i].vote_average)
-				var searchMoviePopularity = Math.floor(movieSearched.results[i].popularity*10)
+				// var searchMoviePopularity = Math.floor(movieSearched.results[i].popularity*10)
 				var searchMovieReleaseDate = movieSearched.results[i].release_date;
 				var searchMovieOverview = movieSearched.results[i].overview;
 				var searchMovieHTML = ''
-	            if((movieSearched.results[i].poster_path)&&(searchMovieRating>0)&&(searchMoviePopularity>0)){
+	            if((movieSearched.results[i].poster_path)&&(searchMovieRating>0)){
 	           		searchMovieHTML += '<div class="eachSearchMovie"><button type="button" class="btn invisible-btn" data-toggle="modal" data-target="#exampleModal' + i + '" data-whatever="@' + i + '"><img src="' + posterSearched + '"></button>'
 	           			searchMovieHTML += '<div class="modal fade" id="exampleModal' + i + '" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"><div class="modal-dialog" role="document"><div class="modal-content">'
-	           			// searchMovieHTML += '<div class="searchMovieDescription">'
 		           			searchMovieHTML += '<div class="searchMovieTitle">' + searchMovieTitle + '</div>'
-	    	       		if((searchMoviePopularity>70)&&(searchMovieRating>6)){
-	    	       			searchMovieHTML += '<div class="searchMovieRating green">' + searchMovieRating + '/10 Critics Rating, ' + searchMoviePopularity + '% of Audience Liked It</div>'
-	    	       		}else{searchMovieHTML += '<div class="searchMovieRating">' + searchMovieRating + '/10 Critics Rating, ' + searchMoviePopularity + '% of Audience Liked It</div>'
+		           			searchMovieHTML += '<br><img src="' + posterSearched + '">'
+	    	       		if(searchMovieRating>6.9){
+	    	       			searchMovieHTML += '<div class="searchMovieRating green">' + searchMovieRating + '/10 Critics Rating</div>'
+	    	       		}else{searchMovieHTML += '<div class="searchMovieRating red">' + searchMovieRating + '/10 Critics Rating</div>'
 	    	       		}
 	        	   			searchMovieHTML += '<div class="searchMovieReleaseDate">Release Date: ' + searchMovieReleaseDate + '</div>'
 	           				searchMovieHTML += '<div class="searchMovieOverview">' + searchMovieOverview + '</div>'
@@ -115,18 +115,18 @@ $(document).ready(function(){
 		})
 	};	//searchMovie function ends
 
-    $('.search-results').on("click", '.eachSearchMovie', function(){
-    	$('.hiddenTvDescription, .searchMovieDescription').hide();
-    	var $thisPoster = $(this).children('.searchMovieDescription')
-		$thisPoster.fadeIn();
-		setTimeout(function(){$thisPoster.fadeOut(1300);}, 3000)
-	})
-    $('.tv-wrapper').on("click", '.eachTvShow', function(){
-    	$('.hiddenTvDescription, .searchMovieDescription').hide();
-    	var $thisTvPoster = $(this).children('.hiddenTvDescription')
-		$thisTvPoster.fadeIn();
-		setTimeout(function(){$thisTvPoster.fadeOut(1300);}, 3000)
-	})
+ //    $('.search-results').on("click", '.eachSearchMovie', function(){
+ //    	$('.hiddenTvDescription, .searchMovieDescription').hide();
+ //    	var $thisPoster = $(this).children('.searchMovieDescription')
+	// 	$thisPoster.fadeIn();
+	// 	setTimeout(function(){$thisPoster.fadeOut(1300);}, 3000)
+	// })
+ //    $('.tv-wrapper').on("click", '.eachTvShow', function(){
+ //    	$('.hiddenTvDescription, .searchMovieDescription').hide();
+ //    	var $thisTvPoster = $(this).children('.hiddenTvDescription')
+	// 	$thisTvPoster.fadeIn();
+	// 	setTimeout(function(){$thisTvPoster.fadeOut(1300);}, 3000)
+	// })
 
 	function getTvShows(){
 		const tvShowUrl = apiBaseUrl + 'tv/top_rated?api_key=' + apiKey 
@@ -134,11 +134,14 @@ $(document).ready(function(){
 	    $.getJSON(tvShowUrl, function(tvData){
 	    	console.log(tvData)
 			for(let i = 0; i < tvData.results.length; i++){
-				tvShowHTML += '<div class="eachTvShow">'
-					tvShowHTML += '<img src="' + imageBaseUrl + 'w300' + tvData.results[i].poster_path + '"><br>'
-					tvShowHTML += '<div class="hiddenTvDescription"><span class="tvTitle">' + tvData.results[i].name + '</span><br>'
+					tvShowHTML += '<div class="eachTvShow"><button type="button" class="btn invisible-btn" data-toggle="modal" data-target="#exampleModalTV' + i + '" data-whatever="@' + i + '"><img src="' + imageBaseUrl + 'w300' + tvData.results[i].poster_path + '"></button>'
+	           		tvShowHTML += '<div class="modal fade" id="exampleModalTV' + i + '" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"><div class="modal-dialog" role="document"><div class="modal-content">'
+					// tvShowHTML += '<img src="' + imageBaseUrl + 'w300' + tvData.results[i].poster_path + '"><br>'
+					tvShowHTML += '<span class="tvTitle">' + tvData.results[i].name + '</span><br><br>'
+					tvShowHTML +=  '<img src="' + imageBaseUrl + 'w300' + tvData.results[i].poster_path + '">'
+					tvShowHTML += '<span class="tvAirDate">First Episode: ' + tvData.results[i].first_air_date + '</span><br>'
 					tvShowHTML += '<span class="tvDescription">' + tvData.results[i].overview + '</span>'
-				tvShowHTML += '</div></div>'	
+					tvShowHTML += '</div></div></div></div>'
 				$('.tv-wrapper').html(tvShowHTML)
 			}
 		});

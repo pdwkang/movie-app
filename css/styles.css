@@ -26,6 +26,9 @@ input{
 	line-height: 58px;
 	font-family: 'Orbitron'
 }
+.invisible-btn{
+	padding: 5px;
+}
 .nowPlaying{
 	font-size: 20px;
 	margin-left: 20px;
@@ -51,42 +54,46 @@ input{
 }
 .tv-wrapper{
 	width: 480px;
-	background: linear-gradient(to right, rgba(166,174,179,1) 0%, rgba(250,250,250,1) 100%);
+	background-color: #C0C0C0;
 	color: white;
 	display: inline-block;
 	margin-left: 20px;
 	height: 760px;
 	box-shadow: 3px 3px 10px 5px #000;
 }
+.tvAirDate{
+	color: orange;
+}
 .tv-wrapper{
 	padding: 10px;
 }
 .eachTvShow{
 	display: inline-block;
-	margin: 4px 7px;
-}
-.hiddenTvDescription{
-	color: white;
-	position: absolute;
-	display: none;
-	width: 320px;
-	border: yellow solid 2px;
-	background: url('../background.png');
-	padding: 10px;
-	z-index: 3;
+	padding: 0;
 }
 .eachTvShow img{
+	width: 102px;
+	height: 135px;
+	margin: 0;
+	border: 2px solid white;
+}
+.eachTvShow img:hover{
+	border: 4px solid yellow;
+	box-shadow: 3px 3px 10px 5px #000;
+}
+
+.eachSearchMovie img{
 	width: 100px;
 	height: 140px;
 	border: 4px solid white;
 	
 }
-.eachTvShow img:hover{
+.eachSearchMovie img:hover{
 	border: 4px solid yellow;
 	box-shadow: 3px 3px 10px 3px #000;
 }
 .tvTitle{
-	font-size: 16px;
+	font-size: 22px;
 	font-weight: 900;
 	color: yellow;
 }
@@ -183,7 +190,7 @@ canvas{
 .degrees{
 	position: absolute;
 	top: 108px;
-	left: 69px;
+	left: 70px;
 	text-align: center;
 	font-size: 23px;
 }
@@ -320,10 +327,11 @@ canvas{
 
 .eachSearchMovie{
 	width: 120px;
-	height: 100%;
-	margin: 8px;
+	height: 200px;
+	margin: 0 8px;
 	display: inline-block;
 	clear: right;
+	background-color: #C0C0C0;
 }
 .movie-form{
 	clear: both;
@@ -338,34 +346,36 @@ canvas{
 .search-results{
 	box-shadow: 3px 3px 10px 5px #000;
 	position: relative;
-	/* padding: 20px; */
+	padding-top: 10px;
 	width: 1000px;
 	display: inline-block;
 	margin: 20px;
 	margin-top: 0;
-	background: linear-gradient(to right, rgba(166,174,179,1) 0%, rgba(250,250,250,1) 100%);
+	background-color: #C0C0C0;
 }
 .modal-content{
 	padding: 20px;
-	font-size: 20px;
+	font-size: 18px;
 	background: url('../background.png');
 	border: yellow solid 2px;
 	color: white;
+	min-height: 235px;
 }
-.searchMovieDescription{
-	/* position: absolute; */
-	/* display: none; */
-	/* width: 380px; */
-	border: yellow solid 2px;
-	background: url('../background.png');
-	padding: 10px;
-	color: white;
+.search-results .modal-content{
+	min-height: 320px;
 }
 .modal{
 	padding: 20px !important;
 }
+.modal img{
+	float: left;
+	margin: 0px 15px 5px 0;
+}
 .green{
-	color: orange;
+	color: lightgreen;
+}
+.red{
+	color: red;
 }
 .searchMovieTitle{
 	font-weight: 600;
