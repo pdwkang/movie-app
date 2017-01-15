@@ -50,7 +50,7 @@ $(document).ready(function(){
 							// 	nowPlayingHTML += ' <span class="mpaa">(' + mpaa + ')</span></div>'
 							// }else{nowPlayingHTML += '</div>'}
 							nowPlayingHTML += '<div class="overview">' + nowPlayingData.results[i].overview + '</div>'
-							nowPlayingHTML += '<div class="vote-average">Rating: ' + nowPlayingData.results[i].vote_average + ' / 10 <img src="rating.png"></div>'
+							nowPlayingHTML += '<div class="vote-average">Rating: ' + nowPlayingData.results[i].vote_average + ' / 10 <img src="images/rating.png"></div>'
 							nowPlayingHTML += '<div class="genre">Genre: ' + genre + '</div>'
 							nowPlayingHTML += '<div class="runtime">Runtime: ' + runtime + ' minutes</div>'
 							// nowPlayingHTML += '<div class="cast">Cast: ' + cast + '</div>'
@@ -65,8 +65,8 @@ $(document).ready(function(){
 						$('.carousel-inner').html(nowPlayingHTML + carouselHTML);
 					if(i<10){
 						if(nowPlayingData.results[i].title.length>27){
-							nowPlayingChartHTML += '<div class="nowPlayingChart">' + nowPlayingData.results[i].title.slice(0,27) +'... &nbsp<span class="nowPlayingRating"><img src="thumbsUp.png"> ' + nowPlayingData.results[i].vote_average*10 + '%</span></div>'
-						}else{nowPlayingChartHTML += '<div class="nowPlayingChart">' + nowPlayingData.results[i].title + '&nbsp<span class="nowPlayingRating"><img src="thumbsUp.png"> ' + nowPlayingData.results[i].vote_average*10 + '%</span></div>'
+							nowPlayingChartHTML += '<div class="nowPlayingChart">' + nowPlayingData.results[i].title.slice(0,27) +'... &nbsp<span class="nowPlayingRating"><img src="images/thumbsUp.png"> ' + nowPlayingData.results[i].vote_average*10 + '%</span></div>'
+						}else{nowPlayingChartHTML += '<div class="nowPlayingChart">' + nowPlayingData.results[i].title + '&nbsp<span class="nowPlayingRating"><img src="images/thumbsUp.png"> ' + nowPlayingData.results[i].vote_average*10 + '%</span></div>'
 						};
 						$('.topNowShowing').html(nowPlayingTitle + nowPlayingChartHTML);
 					}
@@ -267,7 +267,7 @@ function getWeather(){
 		var showtimeUrl = 'http://data.tmsapi.com/v1.1/movies/showings?startDate=' + currentMovieDate + '&zip=' + weatherLocation + '&imageSize=Md&api_key=' + apiKey2
 		$.getJSON(showtimeUrl, function(showTimeData){
 			var showTimeHTML = ''
-			var theaterHTML = '<div class="theaterName">' + showTimeData[0].showtimes[0].theatre.name + '&nbsp &nbsp &nbsp<img src="fandango.png"></div>'
+			var theaterHTML = '<div class="theaterName">' + showTimeData[0].showtimes[0].theatre.name + '&nbsp &nbsp &nbsp<img src="images/fandango.png"></div>'
 			for(let i=0; i<15; i++){
 				showTimeHTML += '<div class="showTimeWrapper">'
 				showTimeHTML += '<div class="individualShowTimes">' + showTimeData[i].title + '</div>'

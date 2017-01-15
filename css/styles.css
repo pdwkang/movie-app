@@ -1,6 +1,7 @@
 body{
-	background: url('../background2.png');
-	font-family: 'Baloo Thambi';
+	background: url('../images/background2.png');
+	/* font-family: 'Baloo Thambi'; */
+	font-family: sans-serif;
 }
 label{
 	color: yellow;
@@ -13,7 +14,7 @@ input{
 	display: inline-block !important;
 }
 .header{
-	background: url('../background.png');
+	background: url('../images/background.png');
 	color: white;
 	position: fixed;
 	z-index: 30;
@@ -364,7 +365,7 @@ canvas{
 .modal-content{
 	padding: 20px;
 	font-size: 18px;
-	background: url('../background.png');
+	background: url('../images/background.png');
 	border: yellow solid 2px;
 	color: white;
 	min-height: 235px;
