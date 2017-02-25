@@ -2,18 +2,28 @@ $(document).ready(function(){
 	var apiBaseUrl = 'http://api.themoviedb.org/3/'
 	var imageBaseUrl = 'http://image.tmdb.org/t/p/'
 	const nowPlayingUrl = apiBaseUrl + 'movie/now_playing?api_key=' + apiKey 
+	//---------------------------------------------------------//
+	//------------ Currently playing movie carousel  -----------//
+	//---------------------------------------------------------//	
 	$.getJSON(nowPlayingUrl, function(nowPlayingData){
 		var nowPlayingHTML = ''
 		var nowPlayingChartHTML = ''
+		//------------------------------------------------//
+		//------------ loop through each movie -----------//
+		//------------------------------------------------//
 		for(let i = 0; i<nowPlayingData.results.length; i++){
 			var movieId = nowPlayingData.results[i].id
 			var trailerUrl = apiBaseUrl + 'movie/' + movieId + '/videos?api_key=' + apiKey
+			//---------------------------------------------------------//
+			//------------ Currently playing movie carousel -----------//
+			//---------------------------------------------------------//				
 			$.getJSON  (trailerUrl, function(targetMovieData){
 				var detailUrl = apiBaseUrl + 'movie/' + targetMovieData.id + '?api_key=' + apiKey
 				$.getJSON(detailUrl, function(detailData){
-				////////////////////////////////////	
-				///// reached MAX API REQUESTS /////
-				////////////////////////////////////	
+					//-------------------------------------------------------//
+					//------------ Reached Max API REQUESTS of 40 -----------//
+					//------- below is commented due to call back hell ------//
+					//-------------------------------------------------------//
 					// var creditUrl = apiBaseUrl + 'movie/' + detailData.id + '/credits?api_key=' + apiKey
 					// $.getJSON(creditUrl, function(creditData){
 					// 	var releaseUrl = apiBaseUrl + 'movie/' + creditData.id + '/release_dates?api_key=' + apiKey	
@@ -74,7 +84,9 @@ $(document).ready(function(){
 				// 	});
 				// });
 			})
-		} //for loop ends
+		} //-------------------------------------------------------//
+		  //-------------------- for loop ends --------------------//
+		  //-------------------------------------------------------//
 	});
 	var searchMovieUrl = apiBaseUrl + 'search/movie?api_key=' + apiKey + '&language=en-US&page=1&include_adult=false&query=';
 	var searchInput = 'lord of the rings';
@@ -136,6 +148,9 @@ $(document).ready(function(){
 	getTvShows();
 });
 
+//-------------------------------------------------------//
+//----------- Carousel static HTML bootstrap ------------//
+//-------------------------------------------------------//
 var carouselHTML = `<a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
     			<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
     			<span class="sr-only">Previous</span></a>
@@ -144,9 +159,11 @@ var carouselHTML = `<a class="left carousel-control" href="#carousel-example-gen
     			<span class="sr-only">Next</span></a>`
 var nowPlayingTitle = '<div class="nowPlayingTitle">Top Movies In Theaters Now!</div>'
 
-////////////////////
-///WEATHER WIDGET///
-////////////////////
+
+
+//-------------------------------------------//
+//-------------- Weather Widget -------------//
+//-------------------------------------------//
 var weatherLocation = "30033"
 $(document).ready(function(){
 	getWeather();
@@ -178,6 +195,9 @@ function getWeather(){
 			$('.degrees').html(Math.floor(currPercent/2.5) + "&deg;")
 			context.strokeStyle = 'white'
           	$('.degrees').css({'color':'white'})
+			//--------------------------------------------------//
+			//----------- Color by temperature, math -----------//
+			//--------------------------------------------------//
             // if(currPercent<150){
           		// context.strokeStyle = '#e8eaf6'
           	// 	$('.degrees').css({'color':'#e8eaf6'})
@@ -256,9 +276,9 @@ function getWeather(){
 		// $('.weather-week').prepend('<div>Day<br>Date<br>High<br>Low</div>')
     	})
 
-/////////////////////
-////GET SHOWTIMES////
-/////////////////////
+		//--------------------------------------------------//
+		//----------- Get Show Times / Fandango ------------//
+		//--------------------------------------------------//
     	var currentDate = new Date()
 		var dd = currentDate.getDate();
 		var mm = currentDate.getMonth()+1;
@@ -279,6 +299,11 @@ function getWeather(){
 	});
 }
 
+
+
+//-------------------------------------//
+//----------- Movie Stocks ------------//
+//-------------------------------------//
 $(document).ready(function(){
 	symbol = 'nflx'
 		// nflx fox via
@@ -292,64 +317,72 @@ $(document).ready(function(){
 		symbol = 'via'
 	})
 
-		setInterval(runJSON1, 1000);
 
-function runJSON1(){
-	var url = `http://query.yahooapis.com/v1/public/yql?
-	q=select%20*%20from%20yahoo.finance.quotes%20where%20symbol%20in%20
-	("${symbol}")%0A%09%09&env=http%3A%2F%2Fdatatables.org%2Falltables.env&format=json`;
-	$.getJSON(url, function(stockData){
-		var stockInfo = stockData.query.results.quote;
-		if(stockData.query.count == 1){
-			var htmlToPlot = buildStockRow(stockInfo);
-			$('#stock-body').html(htmlToPlot);				
-		}else{
-			$('#stock-body').html("");
-			for(let i = 0; i < stockInfo.length; i++){
-				var htmlToPlot = buildStockRow(stockInfo[i]);
-				$('#stock-body').append(htmlToPlot);
+	//----------------------------------------//
+	//----------- Stock Ajax call ------------//
+	//----------------------------------------//		
+	function runJSON1(){
+		var url = `http://query.yahooapis.com/v1/public/yql?
+		q=select%20*%20from%20yahoo.finance.quotes%20where%20symbol%20in%20
+		("${symbol}")%0A%09%09&env=http%3A%2F%2Fdatatables.org%2Falltables.env&format=json`;
+		$.getJSON(url, function(stockData){
+			var stockInfo = stockData.query.results.quote;
+			if(stockData.query.count == 1){
+				var htmlToPlot = buildStockRow(stockInfo);
+				$('#stock-body').html(htmlToPlot);				
+			}else{
+				$('#stock-body').html("");
+				for(let i = 0; i < stockInfo.length; i++){
+					var htmlToPlot = buildStockRow(stockInfo[i]);
+					$('#stock-body').append(htmlToPlot);
+				}
 			}
+		});	
+	}
+	setInterval(runJSON1, 1000);
+
+
+	//--------------------------------------//
+	//----------- data onto dom ------------//
+	//--------------------------------------//	
+	function buildStockRow(stock){
+		if(stock.Change.indexOf('+') > -1) {
+			var classChange = "success";
 		}
-	});	
-}
-function buildStockRow(stock){
-	if(stock.Change.indexOf('+') > -1) {
-		var classChange = "success";
-	}
-	else{
-		var classChange = "danger";
-	}
+		else{
+			var classChange = "danger";
+		}
 
-	var date = new Date()
-	var timeStamp;
-	if(date.getHours() < 10){
-		timeStamp = "0" + date.getHours();
-	}else{
-		timeStamp = date.getHours();
-	};
+		var date = new Date()
+		var timeStamp;
+		if(date.getHours() < 10){
+			timeStamp = "0" + date.getHours();
+		}else{
+			timeStamp = date.getHours();
+		};
 
-	if(date.getMinutes() < 10){
-		timeStamp += (":0" + date.getMinutes())
-	}else{
-		timeStamp += (":" + date.getMinutes())	
-	};
+		if(date.getMinutes() < 10){
+			timeStamp += (":0" + date.getMinutes())
+		}else{
+			timeStamp += (":" + date.getMinutes())	
+		};
 
-	if(date.getSeconds() < 10){
-		timeStamp += (":0" + date.getSeconds())
-	}else{
-		timeStamp += (":" + date.getSeconds())	
-	};
-	var newHTML = '';
-	newHTML += '<tr>';
-		newHTML += '<td>'+(stock.Symbol).toUpperCase() +'</td>';
-		newHTML += '<td>'+stock.Name+'</td>';
-		newHTML += '<td>'+stock.Ask+'</td>';
-		newHTML += '<td>'+stock.Bid+'</td>';
-		newHTML += '<td class="'+classChange+'">'+stock.Change+'</td>';
-		newHTML += '<td>'+timeStamp+'</td>';
-	newHTML += '</tr>';
-	return newHTML;
-}	
+		if(date.getSeconds() < 10){
+			timeStamp += (":0" + date.getSeconds())
+		}else{
+			timeStamp += (":" + date.getSeconds())	
+		};
+		var newHTML = '';
+		newHTML += '<tr>';
+			newHTML += '<td>'+(stock.Symbol).toUpperCase() +'</td>';
+			newHTML += '<td>'+stock.Name+'</td>';
+			newHTML += '<td>'+stock.Ask+'</td>';
+			newHTML += '<td>'+stock.Bid+'</td>';
+			newHTML += '<td class="'+classChange+'">'+stock.Change+'</td>';
+			newHTML += '<td>'+timeStamp+'</td>';
+		newHTML += '</tr>';
+		return newHTML;
+	}	
 });
 
 
